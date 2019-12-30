@@ -1,0 +1,204 @@
+// landing page css
+.hl-section {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    height: 100vh;
+    padding: 30px;
+    z-index: 9999;
+    position: relative;
+    align-items: center;
+
+    @media (min-width:320px) and (max-width:1366px) and (orientation: portrait) {
+        align-items: initial;
+        height: 100%;
+    }
+
+    @media (min-width:320px) and (max-width:823px) {
+        padding: 10px;
+        height: 100%;
+    }
+
+    &__mobilelogo {
+        display: none;
+
+        @include ipad-pro {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        @media (min-width:320px) and (max-width:823px) {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 300px;
+            margin: auto;
+        }
+    }
+
+    &__leftdesc {
+        flex-basis: 40%;
+        max-width: 40%;
+        padding: 40px 15px 0;
+        position: relative;
+
+        @media (min-width:320px) and (max-width:1366px) and (orientation: portrait) {
+            flex-basis: 100%;
+            max-width: 100%;
+            order: 2;
+        }
+
+        @media (min-width:320px) and (max-width:823px) {
+            flex-basis: 100%;
+            max-width: 100%;
+            padding-top: 0;
+            order: 2;
+            margin-bottom: 20px;
+        }
+        .desktop {
+            @include gp-landscape {
+                display: none;
+            }   
+            @include mobile {
+                display: none;
+            }
+        }
+
+        h1 {
+            @include ipad-pro {
+                display: none;
+            }
+            @media (min-width:320px) and (max-width:823px) {
+                display: none;
+            }
+        }
+
+        h2 {
+            font-size: 70px;
+            font-weight: 700;
+            margin: 0 0 30px;
+            color: #ee1d25;
+
+            @include laptop {
+                font-size: 50px;
+                margin: 0 0 15px;
+            }
+        }
+
+        p {
+            font-size: 26px;
+            color: #222;
+            margin: 0 0 30px;
+
+            @include laptop {
+                font-size: 18px;
+                margin: 0 0 15px;
+            }
+        }
+    }
+
+    &__rightimg {
+        padding-left: 15px;
+        padding-right: 15px;
+        flex-basis: 60%;
+        max-width: 60%;
+        position: relative;
+
+        @media (min-width:320px) and (max-width:1366px) and (orientation: portrait) {
+            flex-basis: 100%;
+            max-width: 100%;
+            order: 1;
+        }
+
+        @media (min-width:320px) and (max-width:823px) {
+            order: 1;
+            flex-basis: 100%;
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        .mobile {
+            display: none;
+            margin:20px 0;
+            @include gp-landscape {
+                display: block;
+            }
+            @include mobile {
+                display: block;
+            }
+        }
+    }
+
+    .btn {
+        max-width: 380px;
+        width: 100%;
+        line-height: 50px;
+        font-size: 24px;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        @media (min-width:320px) and (max-width:1366px) {
+            max-width: 100%;
+        }
+
+        @media (min-width:320px) and (max-width:823px) {
+            font-size: 20px;
+        }
+    }
+
+    .landing-list {
+        padding: 0;
+        margin: 0 0 40px;
+        font-size: 24px;
+        letter-spacing: 1px;
+        color: #555;
+        list-style-position: inside;
+
+        @include laptop {
+            margin: 0 0 30px;
+            font-size: 16px;
+        }
+
+        li {
+            margin-bottom: 10px;
+
+            @include laptop {
+                margin-bottom: 5px;
+            }
+
+            i {
+                color: red;
+                margin-right: 10px;
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+.fullscreen video {
+    height: calc(100vh - 60px);
+    object-fit: cover;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+
+    @include ipad-pro {
+        height: auto;
+    }
+}
+
+@media (min-width:320px) and (max-width:823px) {
+
+    .table td,
+    .table th {
+        padding: .5rem;
+    }
+}
+
+#startLoading ,#startLoadingmob{
+    width: 100% !important;
+    opacity: 0.7;
+    cursor: text;
+    font-size: 24px;
+}

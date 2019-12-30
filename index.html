@@ -1,0 +1,208 @@
+﻿<html>
+
+<head>
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="#" onclick="getImage()">Get Image</a>
+    </div>
+    <script src="js/three.min.js"></script>
+    <script src="js/inflate.min.js"></script>
+    <script src="js/FBXLoader.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/cubemap.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/TDSLoader.js"></script>
+    <!-- <script src="js/DXFLoader.js"></script> -->
+    <script>
+        var isNewObjGrp = new THREE.Group();
+        function getImage() {
+
+            var imgData = renderer.domElement.toDataURL('image/jpeg');
+            var link = document.createElement('a');
+            var tt = imgData.replace('image/jpeg', 'image/octet-stream');
+            link.download = 'test.jpg';
+            link.href = tt;
+            link.click();
+        }
+        function getLoader(name) {
+            let loader;
+            let format = name.split('.')[1];
+            switch (format) {
+                case 'fbx':
+                    loader = new THREE.FBXLoader();
+                    break;
+                case '3ds':
+                    loader = new THREE.TDSLoader();
+                    break;
+                case 'dxf':
+                    loader = new THREE.DXFLoader();
+                    break;
+            }
+            return loader;
+        }
+        function loadFbx(objPath, position, isModel) {
+            let loader = getLoader(objPath);
+            var self = this;
+            loader.load('content/model/' + objPath, function (object, text) {
+                object.traverse(function (child) {
+                    if (child.isMesh) {
+
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        let objConfig = globalConfig.find(t => t.name === child.name);
+                        if (objConfig) {
+                            let color = child.material.color;
+                            let map = child.material.map;
+                            child.material = objConfig.material ? objConfig.material : child.material;
+                            child.material.color = color;
+                            //child.material.map = map;
+                            for (let [key, value] of Object.entries(objConfig.properties)) {
+                                if (key === 'lightMap') {
+                                    //children[i].geometry.faceVertexUvs[1] = children[i].geometry.faceVertexUvs[0];
+                                    var loader = new THREE.TextureLoader();
+                                    loader.load(value, function (texture) {
+                                        //children[i].material[key] = texture;
+                                    });
+                                }
+                                else
+                                    child.material[key] = value;
+
+                            }
+                            //child.material.dispose();
+
+                        }
+
+
+                    }
+                });
+                object.position.set(position.x, position.y, position.z);
+                if (isModel) {
+                    //object.scale.set(0.1, -0.1, 0.1);
+                    object.rotation.x = -Math.PI / 2;
+                    scene.children[0].children[13].visible = false;
+                    isNewObjGrp.children = [];
+                    scene.remove(isNewObjGrp);
+                    var tt = new THREE.Box3().setFromObject(scene.children[0].children[13]);
+                    var tt01 = new THREE.Box3().setFromObject(object);
+                    object.scale.set(tt.getSize().x / tt01.getSize().x, -tt.getSize().y / tt01.getSize().y, tt.getSize().z / tt01.getSize().z);
+                    var tt1 = new THREE.Box3().setFromObject(object);
+                    if (tt1.min.x > tt.min.x) {
+                        object.position.x -= (tt1.min.x - tt.min.x);
+                    }
+                    else {
+                        object.position.x += tt.min.x - tt1.min.x;
+                    }
+
+                    if (tt1.max.z > tt.max.z) {
+                        object.position.z -= (tt1.max.z - tt.max.z);
+                    }
+                    else {
+                        object.position.z += (tt.max.z - tt1.max.z);
+                    }
+                    // object.matrixAutoUpdate = false;
+                    // object.children.forEach(function (mesh) {
+                    //     mesh.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, 0));
+                    // })
+                    // object.updateMatrix();
+                    // var pivot = new THREE.Object3D();
+
+
+                    // pivot.add(object);
+                    // pivot.position.set(position.x, position.y, position.z);
+                    isNewObjGrp.add(object);
+                    scene.add(isNewObjGrp);
+                }
+                else {
+
+
+                    //object.rotation.set(0, 0,  - Math.PI / 2);
+                    // var pivot = new THREE.Object3D();
+
+                    // pivot.position.set(position.x, position.y, position.z);
+                    // pivot.add(object);
+                    scene.add(object);
+                    //camera.lookAt(object.position);
+                }
+            });
+
+        }
+    </script>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
+
+        var renderer = new THREE.WebGLRenderer(
+            {
+                antialias: true,
+                preserveDrawingBuffer: true
+            }
+        );
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        renderer.setPixelRatio(devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        scene.background = new THREE.Color(0x000000);
+        loadFbx('toilet.fbx', { x: 0, y: -100, z: 0 });
+
+        camera.position.set(37.9, 7.6, -63.8);
+        ambient = new THREE.AmbientLight(0xffffff, 0.7);
+        //scene.add(ambient);
+
+        var directionLight1 = new THREE.DirectionalLight(0xffffff, 0.3);
+        directionLight1.castShadow = true;
+        directionLight1.shadow.camera.top = 180;
+        directionLight1.shadow.camera.bottom = - 100;
+        directionLight1.shadow.camera.left = - 120;
+        directionLight1.shadow.camera.right = 120;
+        //scene.add(directionLight1);
+
+        var helper = new THREE.DirectionalLightHelper(directionLight1);
+        //scene.add(helper);
+        var targetObject = new THREE.Object3D();
+        //scene.add(targetObject);
+        directionLight1.target = targetObject;
+        directionLight1.position.set(-80, 100, -80);
+        var animate = function () {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        };
+
+        animate();
+    </script>
+
+    <div>
+        <a href="#"
+            onclick="loadFbx('Sanitary_Toilets_Gala_Street-Square-BTW-600x350.fbx',{x:85.57,y:-100,z:67.97},true)">Gala</a>
+        <a href="#"
+            onclick="loadFbx('Sanitary_Toilets_Gala_Klea-Wall-hung-WC-pan-540x340.fbx',{x:85.57,y:-100,z:67.97},true)">Gala
+            2</a>
+        <a href="#"
+            onclick="loadFbx('Sanitary_Toilets_Ponte-Giulio_WC-with-front-opening-hung.fbx',{x:85.57,y:-100,z:67.97},true)">Ponte
+            2</a>
+        <a href="#"
+            onclick="loadFbx('Sanitary_Toilets_Roca_MERIDIAN-WC-for-PRM.fbx',{x:85.57,y:-100,z:67.97},true)">Sanitary_Toilets_Roca_MERIDIAN</a>
+        <a href="#"
+            onclick="loadFbx('Sanitary_Toilets_Porcher_MATURA-Cuvette-seule.fbx',{x:85.57,y:-100,z:67.97},true)">Porcher</a>
+        <a href="#" onclick="loadFbx('3564.3ds',{x:85.57,y:-100,z:67.97},true)">3Ds</a>
+        <!-- <a href="#" onclick="loadFbx('3564sde.dxf',{x:85.57,y:-100,z:67.97},true)">Dxf</a> -->
+    </div>
+</body>
+
+</html>
