@@ -12,9 +12,8 @@ function getLoader(name) {
     }
     return loader;
 }
-function loadFbx(objPath, position, isModel) {
+function loadFbx(objPath, position, isModel, size) {
     let loader = getLoader(objPath);
-    var self = this;
     loader.load('content/model/' + objPath, function (object, text) {
         object.position.set(position.x, position.y, position.z);
         if (isModel) {
@@ -22,14 +21,11 @@ function loadFbx(objPath, position, isModel) {
             scene.children[0].children[13].visible = false;
             isNewObjGrp.children = [];
             scene.remove(isNewObjGrp);
-            var refBoxDimension = new THREE.Box3().setFromObject(scene.children[0].children[13]);
-            var tt01 = new THREE.Box3().setFromObject(object);
-            //if (tt.getSize().x / tt01.getSize().x > 1 && tt.getSize().y / tt01.getSize().y > 1 && tt.getSize().z / tt01.getSize().z)
-            object.scale.set(refBoxDimension.getSize().x / tt01.getSize().x, -refBoxDimension.getSize().z / tt01.getSize().z, refBoxDimension.getSize().y / tt01.getSize().y);
-            // else
-            //     object.scale.set(0.11, -0.11, 0.11);
-            var currentBoxDimension = new THREE.Box3().setFromObject(object);
-            setObjPosition(currentBoxDimension, refBoxDimension, object);
+
+            let fakeBox = getFakeBox(size);
+            let refBoxDimension = new THREE.Box3().setFromObject(fakeBox);
+            setObjResizing(refBoxDimension, object);
+            setObjPosition(refBoxDimension, object);
             isNewObjGrp.add(object);
             scene.add(isNewObjGrp);
         }
@@ -40,19 +36,31 @@ function loadFbx(objPath, position, isModel) {
 
 }
 
-function setObjResizing() {
-
-
+function getFakeBox(size) {
+    let temp_boxGeometry = new THREE.BoxGeometry(size.x, size.y, size.z);
+    let temp_material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    let cube = new THREE.Mesh(temp_boxGeometry, temp_material);
+    cube.position.set(position.x, position.y, position.z);
+    return cube;
 }
 
-function setObjPosition(currentBoxDimension, refBoxDimension, object) {
+function setObjResizing(refBoxDimension, currentObj) {
+    let currentBoxDimension = new THREE.Box3().setFromObject(currentObj);
+    currentObj.scale.set(
+        refBoxDimension.getSize().x / currentBoxDimension.getSize().x,
+        -refBoxDimension.getSize().z / currentBoxDimension.getSize().z,
+        refBoxDimension.getSize().y / currentBoxDimension.getSize().y
+    );
+}
+
+function setObjPosition(refBoxDimension, object) {
+    let currentBoxDimension = new THREE.Box3().setFromObject(object);
     if (currentBoxDimension.min.x > refBoxDimension.min.x) {
         object.position.x -= (currentBoxDimension.min.x - refBoxDimension.min.x);
     }
     else {
         object.position.x += refBoxDimension.min.x - currentBoxDimension.min.x;
     }
-
     if (currentBoxDimension.max.z > refBoxDimension.max.z) {
         object.position.z -= (currentBoxDimension.max.z - refBoxDimension.max.z);
     }
