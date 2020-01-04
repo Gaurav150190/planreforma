@@ -34,7 +34,7 @@ function loadFbx(objPath, position, isModel, refBox) {
 
 }
 
-function loadContructionModelByName(name) {
+function loadConstructionModelByName(name) {
     let item = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(name) > -1);
     item.visible = false;
     let refBox = new THREE.Box3().setFromObject(item);

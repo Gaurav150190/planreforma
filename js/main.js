@@ -34,3 +34,12 @@ var animate = function () {
 };
 
 animate();
+
+function loadConstructionUnit(type, name, materialType) {
+    if (type.toLowerCase() == 'model') {
+        loadConstructionModelByName(name);
+    }
+    else if (type.toLowerCase() == 'texture') {
+        loadContructionTextureOrColor(name, materialType);
+    }
+}
