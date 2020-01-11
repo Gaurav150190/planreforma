@@ -61,13 +61,31 @@ function resizeObject(size, object) {
     if (size.x < size.z && objSize.x > objSize.z) {
         object.rotation.z = -Math.PI / 2;
         objSize = (new THREE.Box3().setFromObject(object)).getSize();
+
+        if ((objSize.x > (size.x * 2.5)) || (objSize.x < (size.x / 2.5))) {
+            object.scale.setY(-size.x / objSize.x);
+        }
+        if ((objSize.y > (size.y * 2.5)) || (objSize.y < (size.y / 2.5))) {
+            object.scale.setZ(size.y / objSize.y);
+        }
+        if ((objSize.z > (size.z * 2.5)) || (objSize.z < (size.z / 2.5))) {
+            object.scale.setX(size.z / objSize.z);
+        }
     }
-    if (objSize.x > (size.x * 2.5)) {
-        object.scale.set(size.x / objSize.x, -size.y / objSize.y, size.z / objSize.z);
+    else {
+        if ((objSize.x > (size.x * 2.5)) || (objSize.x < (size.x / 2.5))) {
+            object.scale.setX(size.x / objSize.x);
+        }
+        if ((objSize.y > (size.y * 2.5)) || (objSize.y < (size.y / 2.5))) {
+            object.scale.setY(-size.y / objSize.y);
+        }
+        if ((objSize.z > (size.z * 2.5)) || (objSize.z < (size.z / 2.5))) {
+            object.scale.setZ(size.z / objSize.z);
+        }
     }
-    else if (objSize.x < (size.x / 2.5)) {
-        object.scale.set(size.x / objSize.x, -size.y / objSize.y, size.z / objSize.z);
-    }
+}
+
+function setScale() {
 
 
 }
