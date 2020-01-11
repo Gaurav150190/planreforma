@@ -1,34 +1,42 @@
 var constructionUnits = [
     {
         name: "Inodoro_01_PR_640_x_360_mm_386021",
-        constructionModelName: 'Sanitary_Toilets_Gala_Street-Square-BTW-600x350.fbx'
+        constructionModelName: 'Sanitary_Toilets_Porcher_MATURA-Cuvette-seule.fbx',
+
     },
     {
         name: "Plan Reforma/94/re-sanitarios",
-        constructionModelName: ''
+        type: 'jackuzi',
+        constructionModelName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-94-re-sanitarios---platoducha.fbx'
     },
     {
-        name: "PlanReforma-51-re-sanitarios",
-        constructionModelName: 'Sanitary_Toilets_Gala_Street-Square-BTW-600x350.fbx'
+        name: "Plan Reforma/51/re-sanitarios",
+        type: 'toilet',
+        constructionModelName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-51-re-sanitarios---inodoro.fbx'
     },
     {
         name: "Plan Reforma/105/re-sanitarios",
-        constructionModelName: ''
+        type: 'wooden box',
+        constructionModelName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-105-re-sanitarios---mueblebano.fbx'
     },
     {
         name: "Plan Reforma/53/re-sanitarios",
-        constructionModelName: ''
+        type: 'sink',
+        constructionModelName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-53-re-sanitarios----lavabo.fbx'
     },
     {
         name: "Plan Reforma/47/re-griferia",
-        constructionModelName: ''
+        type: 'tap',
+        constructionModelName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-47-re-griferia---grifolavabo.fbx'
     },
     {
         name: "Plan Reforma/44/re-baldosa",
-        constructionTextureName: ''
+        type: 'wall texture',
+        constructionTextureName: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-44-re-baldosa.jpg'
     },
     {
         name: "Plan Reforma/8/re-baldosa",
-        constructionColor: new THREE.Color(0xffffff)
+        type: 'floor texture',
+        constructionColor: 'https://planreforma-backup.s3.eu-central-1.amazonaws.com/media/stimat/3d_models/Set+01/01_Plan+Reforma-8-re-baldosa.jpg'
     }
 ];

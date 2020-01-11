@@ -2,7 +2,7 @@ var isNewObjGrp = new THREE.Group();
 var isMainObjGrp = new THREE.Group();
 function getLoader(name) {
     let loader;
-    let format = name.split('.')[1];
+    let format = name.toLowerCase().split('.').pop();
     switch (format) {
         case 'fbx':
             loader = new THREE.FBXLoader();
@@ -15,7 +15,19 @@ function getLoader(name) {
 }
 function loadFbx(objPath, position, isModel, refBox) {
     let loader = getLoader(objPath);
-    loader.load('content/model/' + objPath, function (object, text) {
+    loader.load(objPath, function (object, text) {
+        object.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                //child.receiveShadow = true;
+            }
+            if (child.type.toLowerCase().indexOf('light') > -1) {
+                child.intensity = 0.8;
+            }
+            if (child.material) {
+                child.material.side = THREE.DoubleSide;
+            }
+        });
         object.position.set(position.x, position.y, position.z);
         if (isModel) {
             object.rotation.x = -Math.PI / 2;
@@ -30,29 +42,34 @@ function loadFbx(objPath, position, isModel, refBox) {
             isMainObjGrp.add(object);
             scene.add(isMainObjGrp);
         }
+    }, undefined, function (error) {
+
+        error = error;
     });
 
 }
 
-function loadConstructionModelByName(name) {
-    let item = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(name) > -1);
+function loadConstructionModelByName(obj) {
+    let item = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(obj.name) > -1);
     item.visible = false;
     let refBox = new THREE.Box3().setFromObject(item);
-    let mappedObj = constructionUnits.find(elem => elem.name == name);
-    item.position.y = -100;
-    loadFbx(mappedObj.constructionModelName, item.position, true, refBox);
+    loadFbx(obj.path, item.position, true, refBox);
 }
 
 function resizeObject(size, object) {
     let objSize = (new THREE.Box3().setFromObject(object)).getSize();
+    if (size.x < size.z && objSize.x > objSize.z) {
+        object.rotation.z = -Math.PI / 2;
+        objSize = (new THREE.Box3().setFromObject(object)).getSize();
+    }
     if (objSize.x > (size.x * 2.5)) {
-        let sz = objSize.x / size.x;
-        object.scale.set(1 / sz, -1 / sz, 1 / sz);
+        object.scale.set(size.x / objSize.x, -size.y / objSize.y, size.z / objSize.z);
     }
     else if (objSize.x < (size.x / 2.5)) {
-        let sz = size.x / objSize.x;
-        object.scale.set(sz, -sz, sz);
+        object.scale.set(size.x / objSize.x, -size.y / objSize.y, size.z / objSize.z);
     }
+
+
 }
 
 function setObjPosition(refBoxDimension, object) {
@@ -68,5 +85,11 @@ function setObjPosition(refBoxDimension, object) {
     }
     else {
         object.position.z += (refBoxDimension.max.z - currentBoxDimension.max.z);
+    }
+    if (currentBoxDimension.max.y < refBoxDimension.max.y) {
+        object.position.y -= (refBoxDimension.max.y - (currentBoxDimension.max.y));
+    }
+    else {
+        object.position.y += (refBoxDimension.max.y - (currentBoxDimension.max.y));
     }
 }

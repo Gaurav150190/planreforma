@@ -15,10 +15,10 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 scene.background = new THREE.Color(0x000000);
-loadFbx('toilet.fbx', { x: 0, y: -100, z: 0 });
+loadFbx('content/model/sample_2.fbx', { x: 0, y: -100, z: 0 });
 camera.position.set(37.9, 7.6, -63.8);
 var ambient = new THREE.AmbientLight(0xffffff, 0.7);
-//scene.add(ambient);
+scene.add(ambient);
 var directionLight1 = new THREE.DirectionalLight(0xffffff, 0.3);
 directionLight1.castShadow = true;
 directionLight1.shadow.camera.top = 180;
@@ -35,11 +35,12 @@ var animate = function () {
 
 animate();
 
-function loadConstructionUnit(type, name, materialType) {
+function loadConstructionUnit(type, url, name) {
+    name = name.replace(/ /g, '_').replace(/\//g, '-');
     if (type.toLowerCase() == 'model') {
-        loadConstructionModelByName(name);
+        loadConstructionModelByName({ name: name, path: url });
     }
     else if (type.toLowerCase() == 'texture') {
-        loadContructionTextureOrColor(name, materialType);
+        loadContructionTexture({ name: name, path: url });
     }
 }
