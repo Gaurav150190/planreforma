@@ -77,10 +77,10 @@ function resizeObject(size, object) {
             object.scale.setX(size.x / objSize.x);
         }
         if ((objSize.y > (size.y * 2.5)) || (objSize.y < (size.y / 2.5))) {
-            object.scale.setY(-size.y / objSize.y);
+            object.scale.setY(-size.z / objSize.z);
         }
         if ((objSize.z > (size.z * 2.5)) || (objSize.z < (size.z / 2.5))) {
-            object.scale.setZ(size.z / objSize.z);
+            object.scale.setZ(size.y / objSize.y);
         }
     }
 }
