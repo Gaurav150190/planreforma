@@ -1,5 +1,6 @@
 var isNewObjGrp = new THREE.Group();
 var isMainObjGrp = new THREE.Group();
+var isReplaceItem;
 function getLoader(name) {
     let loader;
     let format = name.toLowerCase().split('.').pop();
@@ -50,10 +51,15 @@ function loadFbx(objPath, position, isModel, refBox) {
 }
 
 function loadConstructionModelByName(obj) {
-    let item = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(obj.name) > -1);
-    item.visible = false;
-    let refBox = new THREE.Box3().setFromObject(item);
-    loadFbx(obj.path, item.position, true, refBox);
+    isReplaceItem = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(obj.name) > -1);
+    if (obj.action.toLowerCase() == 'delete') {
+        isReplaceItem.visible = false;
+        return;
+    }
+
+    isReplaceItem.visible = false;
+    let refBox = new THREE.Box3().setFromObject(isReplaceItem);
+    loadFbx(obj.path, isReplaceItem.position, true, refBox);
 }
 
 function resizeObject(size, object) {

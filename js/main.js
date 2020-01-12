@@ -14,7 +14,7 @@ document.body.appendChild(renderer.domElement);
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-scene.background = new THREE.Color(0x000000);
+scene.background = new THREE.Color(0xf4f2f2);
 loadFbx('content/model/sample_2.fbx', { x: 0, y: -100, z: 0 });
 camera.position.set(37.9, 7.6, -63.8);
 var ambient = new THREE.AmbientLight(0xffffff, 0.7);
@@ -35,12 +35,27 @@ var animate = function () {
 
 animate();
 
-function loadConstructionUnit(type, url, name) {
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+}
+window.addEventListener('resize', onWindowResize, false);
+
+function loadConstructionUnit(type, url, name, action) {
+    if (isReplaceItem)
+        isReplaceItem.visible = true;
+    if (isNewObjGrp) {
+        isNewObjGrp.children = [];
+        scene.remove(isNewObjGrp);
+    }
     name = name.replace(/ /g, '_').replace(/\//g, '-');
     if (type.toLowerCase() == 'model') {
-        loadConstructionModelByName({ name: name, path: url });
+        loadConstructionModelByName({ name: name, path: url, action: action });
     }
     else if (type.toLowerCase() == 'texture') {
-        loadContructionTexture({ name: name, path: url });
+        loadContructionTexture({ name: name, path: url, action: action });
     }
 }
