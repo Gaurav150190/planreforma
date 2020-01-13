@@ -10,7 +10,8 @@ var renderer = new THREE.WebGLRenderer(
 renderer.setSize(window.innerWidth, window.innerHeight);
 var devicePixelRatio = window.devicePixelRatio || 1;
 renderer.setPixelRatio(devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+document.getElementById("abc").appendChild(renderer.domElement);
+//document.body.appendChild(renderer.domElement);
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
