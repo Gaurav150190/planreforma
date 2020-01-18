@@ -2,7 +2,6 @@ var constructionUnits = [
     {
         name: "Inodoro_01_PR_640_x_360_mm_386021",
         constructionModelName: 'Sanitary_Toilets_Porcher_MATURA-Cuvette-seule.fbx',
-
     },
     {
         name: "Plan Reforma/94/re-sanitarios",

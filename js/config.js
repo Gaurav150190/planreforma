@@ -1,236 +1,90 @@
-﻿var globalConfig = [
-    {
-        name: "Body_Cabin", // full body part
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            metalness: 0.5,
-            roughness: 0.4
-        }
-
-    },
-    {
-        name: "headlights",
-        properties:
-        {
-            emissive: new THREE.Color(0xffffff),
-            emissiveIntensity: 0.6,
-            reflectivity: 0.3,
-            envMap: reflectionCube
-        }
-
-    },
-    {
-        name: "Alloy", // all wheels
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.4,
-            metalness: 1,
-            color: new THREE.Color(0xffffff),
-            specular: new THREE.Color(0xffffff),
-            //combine: new THREE.MultiplyOperation,
-            shininess: 100
-        }
-
-    },
-    {
-        name: "Grifo_bajo_01_PR_Grifo_bajo_01_PR_387341", // rack frame
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            //envMapIntensity:0.4,
-            roughness: 0.2,
-            metalness: 0.7,
-            color: new THREE.Color(0xc2c2c2),
-            //combine: new THREE.MultiplyOperation,
-            //shininess: 50
-        }
-
-    },
-    {
-        name: "Inodoro_01_PR_640_x_360_mm_386021", // rack frame
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            envMapIntensity: 0.2,
-            roughness: 0.1,
-            metalness: 0.1,
-            color: new THREE.Color(0xffffff),
-            //combine: new THREE.MultiplyOperation,
-            //shininess: 50
-        }
-
+﻿
+function bindPosition(name, object) {
+    let dimension, objDimension;
+    switch (name) {
+        case 'Plan_Reforma-94-re-sanitarios':
+            object.position.y = 0;
+            break;
+        case 'Plan_Reforma-105-re-sanitarios':
+            dimension = getObjDimensionByName(name);
+            objDimension = new THREE.Box3().setFromObject(object);
+            object.position.y = dimension.max.y - objDimension.getSize().y;
+            break;
+        case 'Plan_Reforma-51-re-sanitarios':
+        case 'Plan_Reforma-53-re-sanitarios':
+            dimension = getObjDimensionByName(name);
+            object.position.y = dimension.min.y;
+            break;
+        case 'Plan_Reforma-47-re-griferia':
+            dimension = getObjDimensionByName('Plan_Reforma-53-re-sanitarios');
+            if (constrctnUnitsArr.obj47Grp.children.length > 0)
+                dimension = new THREE.Box3().setFromObject(constrctnUnitsArr.obj47Grp.children[0]);
+            object.position.y = dimension.max.y;
+            break;
+        case 'Plan_Reforma-44-re-baldosa':
+            break;
+        case 'Plan_Reforma-8-re-baldosa':
+            break;
+        case 'Plan_Reforma-54-re-sanitarios':
+            break;
+        case 'Plan_Reforma-49-re-griferia':
+            break;
+        case 'Plan_Reforma-103-re-sanitarios':
+            break;
+        case 'Plan_Reforma-104-re-sanitarios':
+            break;
+        case 'Plan_Reforma-106-re-griferia':
+            break;
     }
-    ,
-    {
-        name: "Encimera_Profundidad_600_mm_386031", // rack frame
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            envMapIntensity: 0.2,
-            roughness: 0.1,
-            metalness: 0.1,
-            color: new THREE.Color(0xffffff),
-            //combine: new THREE.MultiplyOperation,
-            //shininess: 50
-        }
+}
 
-    },
-    {
-        name: "Lavabo_01_PR_500x450_2_386023", // rack frame
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            envMapIntensity: 0.2,
-            roughness: 0.1,
-            metalness: 0.1,
-            color: new THREE.Color(0xffffff),
-            //combine: new THREE.MultiplyOperation,
-            //shininess: 50
-        }
+function getObjDimensionByName(name) {
+    let isReplaceItem = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(name) > -1);
+    return new THREE.Box3().setFromObject(isReplaceItem);
+}
 
-    },
-    {
-        name: "CargoFloor", // cargo floor
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 0.05,
-            color: new THREE.Color(0xffffff),
-        }
-
-    },
-    {
-        name: "RackFloor",
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.8,
-            color: new THREE.Color(0xffffff),
-            specular: new THREE.Color(0xffffff),
-            //combine: new THREE.MultiplyOperation,
-            shininess: 50
-        }
-
-    },
-    {
-        name: "Yellow",
-        material: new THREE.MeshPhysicalMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 0.3,
-        }
-
-    },
-    {
-        name: "White",
-        material: new THREE.MeshPhysicalMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 0.3,
-        }
-
-    },
-    {
-        name: "Gray_Plastic",
-        material: new THREE.MeshPhysicalMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 0.3,
-        }
-
-    },
-    {
-        name: "RED_Plastic",
-        material: new THREE.MeshPhysicalMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 0.3
-        }
-
-    },
-    {
-        name: "Cream_Paint", // rack frame
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.15,
-            metalness: 0.6
-        }
-
-    },
-    {
-        name: "Logo", // logo
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.3,
-            //color: new THREE.Color(0xffffff),
-            //specular: new THREE.Color(0xffffff),
-            // combine: new THREE.MultiplyOperation,
-            shininess: 100
-        }
-
-    },
-    {
-        name: "Rim", // all rims
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.1,
-            //color: new THREE.Color(0xffffff),
-            //specular: new THREE.Color(0xffffff),
-            // combine: new THREE.MultiplyOperation,
-            shininess: 30
-        }
-
-    },
-    {
-        name: "Chrome", //front chrome
-        material: new THREE.MeshStandardMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            roughness: 0.1,
-        }
-
-    },
-    {
-        name: "Bumper", // front mud guard
-        material: new THREE.MeshPhysicalMaterial(),
-        properties:
-        {
-            color: new THREE.Color(0x332f2f),
-            envMap: reflectionCube,
-            clearCoat: 0.5,
-            reflectivity: 0.2
-        }
-
-    },
-    {
-        name: "Glass", // vehicle-window
-        material: new THREE.MeshPhongMaterial(),
-        properties:
-        {
-            envMap: reflectionCube,
-            reflectivity: 1,
-            transparent: true,
-            opacity: 0.4
-        }
-
+function addObjToGroup(name, object) {
+    switch (name) {
+        case 'Plan_Reforma-94-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj94Grp);
+            break;
+        case 'Plan_Reforma-51-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj51Grp);
+            break;
+        case 'Plan_Reforma-105-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj105Grp);
+            break;
+        case 'Plan_Reforma-53-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj53Grp);
+            break;
+        case 'Plan_Reforma-47-re-griferia':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj47Grp);
+            break;
+        case 'Plan_Reforma-44-re-baldosa':
+            break;
+        case 'Plan_Reforma-8-re-baldosa':
+            break;
+        case 'Plan_Reforma-54-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj54Grp);
+            break;
+        case 'Plan_Reforma-49-re-griferia':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj49Grp);
+            break;
+        case 'Plan_Reforma-103-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj103Grp);
+            break;
+        case 'Plan_Reforma-104-re-sanitarios':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj104Grp);
+            break;
+        case 'Plan_Reforma-106-re-griferia':
+            addRemoveUnitToGrp(object, constrctnUnitsArr.obj106Grp);
+            break;
     }
+}
 
-];
+function addRemoveUnitToGrp(unit, group) {
+    group.children = [];
+    scene.remove(group);
+    group.add(unit);
+    scene.add(group);
+}

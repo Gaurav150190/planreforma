@@ -5,11 +5,11 @@ function loadContructionTexture(obj) {
             if (child.isMesh && child.name.indexOf(obj.name) > -1)
                 child.traverse(function (innerChild) {
                     if (innerChild.material) {
-                        let material;
-                        if (Array.isArray(innerChild.material))
-                            material = innerChild.material.find(t => t.name.indexOf(obj.name) > -1);
-                        else
-                            material = innerChild.material.name.indexOf(obj.name) > -1;
+                        let material = innerChild.material;
+                        // if (Array.isArray(innerChild.material))
+                        //     material = innerChild.material.find(t => t.name.indexOf(obj.name) > -1);
+                        // else
+                        //     material = (innerChild.material.name.indexOf(obj.name) > -1) ? innerChild.material : false;
                         if (material) {
                             material.map = texture;
                             material.map.wrapS = material.map.wrapT = THREE.RepeatWrapping;

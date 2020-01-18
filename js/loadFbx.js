@@ -1,3 +1,15 @@
+var constrctnUnitsArr = {
+    obj47Grp: new THREE.Group(),
+    obj49Grp: new THREE.Group(),
+    obj51Grp: new THREE.Group(),
+    obj53Grp: new THREE.Group(),
+    obj54Grp: new THREE.Group(),
+    obj94Grp: new THREE.Group(),
+    obj103Grp: new THREE.Group(),
+    obj104Grp: new THREE.Group(),
+    obj105Grp: new THREE.Group(),
+    obj106Grp: new THREE.Group()
+}
 var isNewObjGrp = new THREE.Group();
 var isMainObjGrp = new THREE.Group();
 var isReplaceItem;
@@ -14,9 +26,9 @@ function getLoader(name) {
     }
     return loader;
 }
-function loadFbx(objPath, position, isModel, refBox) {
-    let loader = getLoader(objPath);
-    loader.load(objPath, function (object, text) {
+function loadFbx(obj, position, isModel, refBox) {
+    let loader = getLoader(obj.path);
+    loader.load(obj.path, function (object, text) {
         object.traverse(function (child) {
             if (child.isMesh) {
                 child.castShadow = true;
@@ -32,12 +44,10 @@ function loadFbx(objPath, position, isModel, refBox) {
         object.position.set(position.x, position.y, position.z);
         if (isModel) {
             object.rotation.x = -Math.PI / 2;
-            isNewObjGrp.children = [];
-            scene.remove(isNewObjGrp);
+
             resizeObject(refBox.getSize(), object);
-            setObjPosition(refBox, object);
-            isNewObjGrp.add(object);
-            scene.add(isNewObjGrp);
+            setObjPosition(refBox, object, obj.name);
+            addObjToGroup(obj.name, object);
         }
         else {
             isMainObjGrp.add(object);
@@ -59,7 +69,7 @@ function loadConstructionModelByName(obj) {
 
     isReplaceItem.visible = false;
     let refBox = new THREE.Box3().setFromObject(isReplaceItem);
-    loadFbx(obj.path, isReplaceItem.position, true, refBox);
+    loadFbx(obj, isReplaceItem.position, true, refBox);
 }
 
 function resizeObject(size, object) {
@@ -112,7 +122,7 @@ function setScale() {
 
 }
 
-function setObjPosition(refBoxDimension, object) {
+function setObjPosition(refBoxDimension, object, refObjName) {
     let currentBoxDimension = new THREE.Box3().setFromObject(object);
     object.position.x = (refBoxDimension.min.x + refBoxDimension.max.x) / 2;
     // if (currentBoxDimension.min.x > refBoxDimension.min.x) {
@@ -127,10 +137,6 @@ function setObjPosition(refBoxDimension, object) {
     else {
         object.position.z += (refBoxDimension.max.z - currentBoxDimension.max.z);
     }
-    if (currentBoxDimension.max.y < refBoxDimension.max.y) {
-        object.position.y -= (refBoxDimension.max.y - (currentBoxDimension.max.y));
-    }
-    else {
-        object.position.y += (refBoxDimension.max.y - (currentBoxDimension.max.y));
-    }
+    //set y position
+    bindPosition(refObjName, object);
 }
