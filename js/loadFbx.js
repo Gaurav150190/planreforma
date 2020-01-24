@@ -32,13 +32,40 @@ function loadFbx(obj, position, isModel, refBox) {
         object.traverse(function (child) {
             if (child.isMesh) {
                 child.castShadow = true;
-                //child.receiveShadow = true;
+                child.receiveShadow = true;
             }
-            if (child.type.toLowerCase().indexOf('light') > -1) {
-                child.intensity = 0.8;
+            if (child.type.toLowerCase().indexOf('spotlight') > -1) {
+                // child.penumbra = 0.5;
+                // child.angle = 1.4;
+                // child.castShadow = true;
+                // child.shadow.mapSize.width = 512;  // default
+                // child.shadow.mapSize.height = 512;
+
+                // child.shadow.camera.near = 0.5;
+                // child.shadow.camera.far = 500;
+                // child.shadow.camera.fov = 30;
+                child.visible = false;
             }
-            if (child.material) {
+            if (child.type.toLowerCase().indexOf('pointlight') > -1) {
+                child.intensity = 0.2;
+                child.castShadow = false;
+                console.log(child.name);
+                if (child.name.toLowerCase().indexOf('luz_redonda_01_pr_3000_391434_light002') > -1)
+                    child.intensity = 0.5;
+                if (child.name.toLowerCase().indexOf('luz_redonda_01_pr_3000_391434_light') > -1)
+                    child.castShadow = true;
+
+
+                // child.shadow.mapSize.width = 512;  // default
+                // child.shadow.mapSize.height = 512
+                // child.castShadow = true;
+                // child.shadow.camera.near = 0.5;
+                // child.shadow.camera.far = 500;
+                //child.castShadow = false;
+            }
+            if (isModel && child.material) {
                 child.material.side = THREE.DoubleSide;
+                child.castShadow = false;
             }
         });
         object.position.set(position.x, position.y, position.z);

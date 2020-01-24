@@ -1,6 +1,6 @@
 ﻿
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 100000);
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000000);
 var renderer = new THREE.WebGLRenderer(
     {
         antialias: true,
@@ -15,9 +15,9 @@ document.getElementById("abc").appendChild(renderer.domElement);
 var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-scene.background = new THREE.Color(0xf4f2f2);
-loadFbx({ path: 'content/model/Sample_model-4.fbx' }, { x: 0, y: -100, z: 0 });
-camera.position.set(37.9, 7.6, -63.8);
+scene.background = new THREE.Color(0xffffff);
+loadFbx({ path: 'content/model/sampleFBX07.fbx' }, { x: 0, y: -100, z: 0 });
+camera.position.set(-42.46, 15.009, -59.46);
 var ambient = new THREE.AmbientLight(0xffffff, 0.7);
 //scene.add(ambient);
 var directionLight1 = new THREE.DirectionalLight(0xffffff, 0.3);
@@ -27,6 +27,31 @@ directionLight1.shadow.camera.bottom = - 100;
 directionLight1.shadow.camera.left = - 120;
 directionLight1.shadow.camera.right = 120;
 //scene.add(directionLight1);
+
+var spotlight = new THREE.SpotLight(0xffffff);
+//spotlight.castShadow = true;
+spotlight.angle = 1.2;
+spotlight.penumbra = 0.2;
+spotlight.intensity = 0.4;
+spotlight.position.set(61.72, 106.15, -1.823);
+
+scene.add(spotlight);
+
+var spotlight1 = new THREE.SpotLight(0xffffff);
+spotlight1.angle = 1;
+spotlight1.penumbra = 0.2;
+spotlight1.intensity = 0.3;
+spotlight1.position.set(-17.74, 106.15, -1.823);
+//spotlight1.castShadow = true;
+scene.add(spotlight1);
+
+var spotlight2 = new THREE.SpotLight(0xffffff);
+spotlight2.angle = 1;
+spotlight2.penumbra = 0.2;
+spotlight2.intensity = 0.3;
+spotlight2.position.set(-97.60, 106.15, -1.823);
+//spotlight2.castShadow = true;
+scene.add(spotlight2);
 
 var animate = function () {
     requestAnimationFrame(animate);
@@ -48,7 +73,7 @@ window.addEventListener('resize', onWindowResize, false);
 function loadConstructionUnit(type, url, name, action) {
     if (isReplaceItem)
         isReplaceItem.visible = true;
-    
+
     name = name.replace(/ /g, '_').replace(/\//g, '-');
     if (type.toLowerCase() == 'model') {
         loadConstructionModelByName({ name: name, path: url, action: action });
