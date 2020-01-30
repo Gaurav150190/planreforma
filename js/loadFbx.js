@@ -35,15 +35,6 @@ function loadFbx(obj, position, isModel, refBox) {
                 child.receiveShadow = true;
             }
             if (child.type.toLowerCase().indexOf('spotlight') > -1) {
-                // child.penumbra = 0.5;
-                // child.angle = 1.4;
-                // child.castShadow = true;
-                // child.shadow.mapSize.width = 512;  // default
-                // child.shadow.mapSize.height = 512;
-
-                // child.shadow.camera.near = 0.5;
-                // child.shadow.camera.far = 500;
-                // child.shadow.camera.fov = 30;
                 child.visible = false;
             }
             if (child.type.toLowerCase().indexOf('pointlight') > -1) {
@@ -54,14 +45,6 @@ function loadFbx(obj, position, isModel, refBox) {
                     child.intensity = 0.5;
                 if (child.name.toLowerCase().indexOf('luz_redonda_01_pr_3000_391434_light') > -1)
                     child.castShadow = true;
-
-
-                // child.shadow.mapSize.width = 512;  // default
-                // child.shadow.mapSize.height = 512
-                // child.castShadow = true;
-                // child.shadow.camera.near = 0.5;
-                // child.shadow.camera.far = 500;
-                //child.castShadow = false;
             }
             if (isModel && child.material) {
                 child.material.side = THREE.DoubleSide;
@@ -91,6 +74,7 @@ function loadConstructionModelByName(obj) {
     isReplaceItem = isMainObjGrp.children[0].children.find(elem => elem.name.indexOf(obj.name) > -1);
     if (obj.action.toLowerCase() == 'delete') {
         isReplaceItem.visible = false;
+        substituteOrDeleteObj(obj.name, null, 'delete');
         return;
     }
 
@@ -165,5 +149,5 @@ function setObjPosition(refBoxDimension, object, refObjName) {
         object.position.z += (refBoxDimension.max.z - currentBoxDimension.max.z);
     }
     //set y position
-    bindPosition(refObjName, object);
+    substituteOrDeleteObj(refObjName, object, 'substitute');
 }
