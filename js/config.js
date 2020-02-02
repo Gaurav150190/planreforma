@@ -24,7 +24,15 @@ function substituteOrDeleteObj(name, object, type) {
                 substituteSink(object);
             else {
                 deleteObjects(constrctnUnitsArr.obj53Grp);
-                resetWoodenBoxPosition(object);
+                let woodenObj;
+                if (constrctnUnitsArr.obj105Grp.children.length == 0 && getObj_DimensionByName('Plan_Reforma-105-re-sanitarios').obj.visible == false)
+                    return;
+                else
+                    if (constrctnUnitsArr.obj105Grp.children.length > 0)
+                        woodenObj = constrctnUnitsArr.obj105Grp.children[0];
+                    else
+                        woodenObj = getObj_DimensionByName('Plan_Reforma-105-re-sanitarios').obj;
+                substituteWoodenBox(woodenObj);
             }
             break;
         case 'Plan_Reforma-47-re-griferia': //tap
@@ -74,23 +82,23 @@ function addObjToGroup(name, object) {
         case 'Plan_Reforma-47-re-griferia': //tap
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj47Grp);
             break;
-        case 'Plan_Reforma-44-re-baldosa':
+        case 'Plan_Reforma-44-re-baldosa':  //wall tiles
             break;
-        case 'Plan_Reforma-8-re-baldosa':
+        case 'Plan_Reforma-8-re-baldosa':   //floor tiles
             break;
-        case 'Plan_Reforma-54-re-sanitarios':
+        case 'Plan_Reforma-54-re-sanitarios':   //bath
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj54Grp);
             break;
-        case 'Plan_Reforma-49-re-griferia':
+        case 'Plan_Reforma-49-re-griferia': //bath tap
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj49Grp);
             break;
-        case 'Plan_Reforma-103-re-sanitarios':
+        case 'Plan_Reforma-103-re-sanitarios':  //shower screen for shower 
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj103Grp);
             break;
-        case 'Plan_Reforma-104-re-sanitarios':
+        case 'Plan_Reforma-104-re-sanitarios':  //shower screen for bath
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj104Grp);
             break;
-        case 'Plan_Reforma-106-re-griferia':
+        case 'Plan_Reforma-106-re-griferia':    //shower tap
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj106Grp);
             break;
     }
