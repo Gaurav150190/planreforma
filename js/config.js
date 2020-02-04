@@ -37,23 +37,39 @@ function substituteOrDeleteObj(name, object, type) {
             break;
         case 'Plan_Reforma-47-re-griferia': //tap
             if (type.toLowerCase() == 'substitute')
-                substituteTap(object);
+                substituteSinkTap(object, 'Plan_Reforma-47-re-griferia');
             else
-                deleteTap();
+                deleteObjects(constrctnUnitsArr.obj47Grp);
             break;
         case 'Plan_Reforma-44-re-baldosa':  //wall texture
             break;
         case 'Plan_Reforma-8-re-baldosa':   //floor texture
             break;
-        case 'Plan_Reforma-54-re-sanitarios':
+        case 'Plan_Reforma-54-re-sanitarios':   //bath
+            if (type.toLowerCase() == 'substitute')
+                substituteBath(name, object);
+            else
+                deleteObjects(constrctnUnitsArr.obj54Grp);
             break;
-        case 'Plan_Reforma-49-re-griferia':
+        case 'Plan_Reforma-49-re-griferia': //bath tap
+            if (type.toLowerCase() == 'substitute')
+                substituteBathTap(object, 'Plan_Reforma-49-re-griferia');
+            else
+                deleteObjects(constrctnUnitsArr.obj49Grp);
             break;
-        case 'Plan_Reforma-103-re-sanitarios':
+        case 'Plan_Reforma-103-re-sanitarios':  //shower screen for shower 
+            if (type.toLowerCase() == 'substitute')
+                substituteShowerScreen(name, object);
+            else
+                deleteObjects(constrctnUnitsArr.obj103Grp);
             break;
-        case 'Plan_Reforma-104-re-sanitarios':
+        case 'Plan_Reforma-104-re-sanitarios':  //shower screen for bath
             break;
-        case 'Plan_Reforma-106-re-griferia':
+        case 'Plan_Reforma-106-re-griferia':    //shower tap
+            if (type.toLowerCase() == 'substitute')
+                substituteShowerTap(object, 'Plan_Reforma-106-re-griferia');
+            else
+                deleteObjects(constrctnUnitsArr.obj106Grp);
             break;
     }
 }

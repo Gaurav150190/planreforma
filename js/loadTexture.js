@@ -12,8 +12,9 @@ function loadContructionTexture(obj) {
                         //     material = (innerChild.material.name.indexOf(obj.name) > -1) ? innerChild.material : false;
                         if (material) {
                             material.map = texture;
+                            material.bumpScale = 0;
                             material.map.wrapS = material.map.wrapT = THREE.RepeatWrapping;
-                            material.map.repeat.set(0.01, 0.02);
+                            material.map.repeat.set(0.1, 0.2);
                             material.needsUpdate = true;
                         }
                     }
