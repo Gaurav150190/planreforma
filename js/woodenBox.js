@@ -25,6 +25,7 @@ function substituteWoodenBox(object) {
     if ((calPosAgain.max.y > refDimension.min.y) || (calPosAgain.max.y < refDimension.min.y))
         object.position.y += refDimension.min.y - calPosAgain.max.y;
 
+    
 }
 
 

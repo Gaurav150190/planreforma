@@ -12,16 +12,16 @@ function substituteTap(object, name) {
 
 function substituteSinkTap(object, name) {
     substituteTap(object, name);
-    camera.position.set(-28.92737219729685, 13.59973409898459, -77.82415521671935);
+
 }
 
 
 function substituteBathTap(object, name) {
     substituteTap(object, name);
-    camera.position.set(167.2810834691731, 2.5769831113801107, -20.783516486964096);
+
 }
 
 function substituteShowerTap(object, name) {
     substituteTap(object, name);
-    camera.position.set(167.2810834691731, 2.5769831113801107, -20.783516486964096);
+
 }

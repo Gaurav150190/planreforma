@@ -41,10 +41,7 @@ function substituteOrDeleteObj(name, object, type) {
             else
                 deleteObjects(constrctnUnitsArr.obj47Grp);
             break;
-        case 'Plan_Reforma-44-re-baldosa':  //wall texture
-            break;
-        case 'Plan_Reforma-8-re-baldosa':   //floor texture
-            break;
+
         case 'Plan_Reforma-54-re-sanitarios':   //bath
             if (type.toLowerCase() == 'substitute')
                 substituteBath(name, object);
@@ -71,6 +68,7 @@ function substituteOrDeleteObj(name, object, type) {
             else
                 deleteObjects(constrctnUnitsArr.obj106Grp);
             break;
+
     }
 }
 
@@ -117,6 +115,7 @@ function addObjToGroup(name, object) {
         case 'Plan_Reforma-106-re-griferia':    //shower tap
             addRemoveUnitToGrp(object, constrctnUnitsArr.obj106Grp);
             break;
+
     }
 }
 

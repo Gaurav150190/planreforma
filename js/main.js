@@ -16,8 +16,8 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 scene.background = new THREE.Color(0xffffff);
-loadFbx({ path: 'content/model/sampleFBX015.fbx' }, { x: 0, y: -100, z: 0 });
-camera.position.set(-28.92737219729685, 13.59973409898459, -77.82415521671935)
+loadFbx({ path: 'content/model/sampleFBX08.fbx' }, { x: 0, y: -100, z: 0 });
+camera.position.set(-28.92737219729685, 13.59973409898459, -77.82415521671935);
 var ambient = new THREE.AmbientLight(0xffffff, 0.7);
 //scene.add(ambient);
 var directionLight1 = new THREE.DirectionalLight(0xffffff, 0.3);
