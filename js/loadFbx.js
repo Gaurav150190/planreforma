@@ -75,6 +75,7 @@ function loadConstructionModelByName(obj) {
     if (obj.action.toLowerCase() == 'delete') {
         isReplaceItem.visible = false;
         substituteOrDeleteObj(obj.name, null, 'delete');
+        loadRenderedImage();
         return;
     }
 
@@ -151,4 +152,5 @@ function setObjPosition(refBoxDimension, object, refObjName) {
     }
     //set y position
     substituteOrDeleteObj(refObjName, object, 'substitute');
+    loadRenderedImage();
 }

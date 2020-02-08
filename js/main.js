@@ -1,4 +1,4 @@
-﻿
+﻿var rendererCount = 0, totalCount = 0;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000000);
 var renderer = new THREE.WebGLRenderer(
@@ -71,13 +71,13 @@ function onWindowResize() {
 window.addEventListener('resize', onWindowResize, false);
 
 function getData(arr) {
+    rendererCount = 0;
+    totalCount = arr.length;
     arr.forEach(t => {
         loadConstructionUnit(t.type, t.name, t.action, t.url);
     });
 }
 function loadConstructionUnit(type, name, action, url) {
-    // if (isReplaceItem)
-    //     isReplaceItem.visible = true;
 
     name = name.replace(/ /g, '_').replace(/\//g, '-');
     if (type.toLowerCase() == 'model') {
@@ -85,5 +85,14 @@ function loadConstructionUnit(type, name, action, url) {
     }
     else if (type.toLowerCase() == 'texture') {
         loadContructionTexture({ name: name, path: url, action: action });
+    }
+}
+
+function loadRenderedImage() {
+    rendererCount++;
+    if (rendererCount == totalCount) {
+        setTimeout(function () {
+            getImage();
+        }, 100);
     }
 }

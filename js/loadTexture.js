@@ -20,6 +20,7 @@ function loadContructionTexture(obj) {
                             material.map.repeat.set(0.1, 0.2);
                             material.needsUpdate = true;
                         }
+                        loadRenderedImage();
                     }
                 })
         });
