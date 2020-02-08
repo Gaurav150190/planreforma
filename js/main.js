@@ -16,7 +16,7 @@ var controls = new THREE.OrbitControls(camera, renderer.domElement);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 scene.background = new THREE.Color(0xffffff);
-loadFbx({ path: 'content/model/sampleFBX010.fbx' }, { x: 0, y: -100, z: 0 });
+loadFbx({ path: 'content/model/sampleFBX011.fbx' }, { x: 0, y: -100, z: 0 });
 camera.position.set(-28.92737219729685, 13.59973409898459, -77.82415521671935);
 var ambient = new THREE.AmbientLight(0xffffff, 0.7);
 //scene.add(ambient);
@@ -70,9 +70,14 @@ function onWindowResize() {
 }
 window.addEventListener('resize', onWindowResize, false);
 
+function getData(arr) {
+    arr.forEach(t => {
+        loadConstructionUnit(t.type, t.name, t.action, t.url);
+    });
+}
 function loadConstructionUnit(type, name, action, url) {
-        // if (isReplaceItem)
-        //     isReplaceItem.visible = true;
+    // if (isReplaceItem)
+    //     isReplaceItem.visible = true;
 
     name = name.replace(/ /g, '_').replace(/\//g, '-');
     if (type.toLowerCase() == 'model') {

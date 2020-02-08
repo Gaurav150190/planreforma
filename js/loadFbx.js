@@ -136,12 +136,13 @@ function setScale() {
 function setObjPosition(refBoxDimension, object, refObjName) {
     let currentBoxDimension = new THREE.Box3().setFromObject(object);
     object.position.x = (refBoxDimension.min.x + refBoxDimension.max.x) / 2;
-    // if (currentBoxDimension.min.x > refBoxDimension.min.x) {
-    //     object.position.x -= (currentBoxDimension.min.x - refBoxDimension.min.x);
-    // }
-    // else {
-    //     object.position.x += refBoxDimension.min.x - currentBoxDimension.min.x;
-    // }
+
+    //reset object-position if x pivot point not at 0
+    let calObjectXPosAgain = new THREE.Box3().setFromObject(object);
+    if ((calObjectXPosAgain.max.x > refBoxDimension.max.x))
+        object.position.x -= calObjectXPosAgain.max.x - refBoxDimension.max.x;
+
+
     if (currentBoxDimension.max.z > refBoxDimension.max.z) {
         object.position.z -= (currentBoxDimension.max.z - refBoxDimension.max.z);
     }
