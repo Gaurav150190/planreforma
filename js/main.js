@@ -53,6 +53,19 @@ spotlight2.position.set(-97.60, 106.15, -1.823);
 //spotlight2.castShadow = true;
 scene.add(spotlight2);
 
+var geometry = new THREE.PlaneBufferGeometry(119.99, 59.99, 1.904);
+var verticalMirror = new THREE.Reflector(geometry, {
+    clipBias: 0.003,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+    color: 0x889999,
+    recursion: 1
+});
+verticalMirror.position.set(-67.64, 50, 97.04);
+verticalMirror.scale.z = -1;
+scene.add(verticalMirror);
+
+
 var animate = function () {
     requestAnimationFrame(animate);
     controls.update();
