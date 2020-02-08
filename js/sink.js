@@ -33,6 +33,6 @@ function resetWoodenBoxPosition(object) {
         if ((calSinkPosAgain.min.y > woodenObjDimension.max.y) || (calSinkPosAgain.min.y < woodenObjDimension.max.y))
             woodenBox.obj.position.y += calSinkPosAgain.min.y - woodenObjDimension.max.y;
 
-        camera.position.set(-28.92737219729685, 13.59973409898459, -77.82415521671935);
+        
     }
 }

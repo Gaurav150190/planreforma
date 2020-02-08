@@ -61,6 +61,15 @@ function substituteOrDeleteObj(name, object, type) {
                 deleteObjects(constrctnUnitsArr.obj103Grp);
             break;
         case 'Plan_Reforma-104-re-sanitarios':  //shower screen for bath
+            if (type.toLowerCase() == 'substitute') {
+                substituteShowerScreen(name, object);
+                spotlight.intensity = 0.3;
+                spotlight1.intensity = spotlight2.intensity = 0.3;
+            }
+            else {
+                spotlight.intensity = spotlight1.intensity = spotlight2.intensity = 0.1;
+                deleteObjects(constrctnUnitsArr.obj104Grp);
+            }
             break;
         case 'Plan_Reforma-106-re-griferia':    //shower tap
             if (type.toLowerCase() == 'substitute')
