@@ -58,6 +58,7 @@ function loadFbx(obj, position, isModel, refBox) {
             resizeObject(refBox.getSize(), object);
             setObjPosition(refBox, object, obj.name);
             addObjToGroup(obj.name, object);
+            loadRenderedImage();
         }
         else {
             isMainObjGrp.add(object);
@@ -152,5 +153,5 @@ function setObjPosition(refBoxDimension, object, refObjName) {
     }
     //set y position
     substituteOrDeleteObj(refObjName, object, 'substitute');
-    loadRenderedImage();
+    
 }
